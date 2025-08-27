@@ -1,5 +1,4 @@
 const express = require("express");
-const fetch = require("node-fetch");
 require("dotenv").config();
 
 const app = express();
@@ -8,11 +7,11 @@ const port = process.env.PORT || 3000;
 const LASTFM_USER = process.env.LASTFM_USER;
 const LASTFM_APIKEY = process.env.LASTFM_APIKEY;
 
-// Endpoint: /sarki
 app.get("/sarki", async (req, res) => {
   try {
     const url = `http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${LASTFM_USER}&api_key=${LASTFM_APIKEY}&format=json&limit=1`;
-    const response = await fetch(url);
+    
+    const response = await fetch(url); // Node.js 18+ global fetch
     const data = await response.json();
 
     if (!data.recenttracks || !data.recenttracks.track || data.recenttracks.track.length === 0) {
@@ -35,7 +34,6 @@ app.get("/sarki", async (req, res) => {
   }
 });
 
-// Sunucuyu başlat
 app.listen(port, () => {
   console.log(`Bot sunucusu port ${port} üzerinde dinleniyor.`);
 });
